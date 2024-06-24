@@ -161,7 +161,7 @@ contact_dictionary = {
     },
     "719-200-7838": {
         "Name": "Skylar Ennenga",
-        "Phone number": "719-200-7838",
+        "Phone number": "625-263-1920",
         "Email address": "s@example.com",
         "Additional information": "NONE"
 
@@ -181,21 +181,21 @@ def validate_phone_number(phone_number):
 
 def add_contact(contact_dictionary):
     print("Welcome to the add contact page")
-    contact_name = input("Lets start with your new contacts phone name: ").capitalize()
+    contact_name = input("Lets start with your new contacts phone name: ").capitalize() #Capitalize the first letter of the name
     while True:
         contact_number = input("Lets start with your new contacts phone number: ")
-        if validate_phone_number(contact_number):
+        if validate_phone_number(contact_number): #Verify the phone number is in the correct format
             break
         else:
             print("Invalid phone number, please use the syntax xxx-xxx-xxxx")
-    contact_email = input("Lets start with your new contacts phone email: ").capitalize()
+    contact_email = input("Lets start with your new contacts phone email: ").capitalize() 
     additional_info = input("Would you like to add any additional information to this contact?: ")
-    if additional_info == "1" or additional_info == 'yes':
+    if additional_info == "1" or additional_info == 'yes': #If the user wants to add additional information
         info_address = input("What is the contacts Address?: ").capitalize()
         info_notes = input("Where did you meet this contact or any other notes?: ").capitalize()
         info_relationship = input("Be them Friend? or Foe!?: ").capitalize()
         
-        contact_dictionary.update({contact_number: 
+        contact_dictionary.update({contact_number: # Update the dictionary with the new contact
                                 {"Name": contact_name, 
                                     "Phone number": contact_number, 
                                     "Email address": contact_email, 
@@ -204,11 +204,11 @@ def add_contact(contact_dictionary):
                                     "Notes": info_notes, 
                                     "Relationship": info_relationship }}})   
     else:
-        contact_dictionary.update({contact_number: 
+        contact_dictionary.update({contact_number: #Update the dictionary with the new contact
                                 {"Name": contact_name, 
                                     "Phone number": contact_number, 
                                     "Email address": contact_email, 
-                                    "Additional information": "NONE" 
+                                    "Additional information": "NONE" # add NONE as a place holder for no additional information
                                     }})  
     
 
@@ -218,11 +218,11 @@ def add_contact(contact_dictionary):
 def edit_contact(contact_dictionary):
     while True:
         change_contact = input("Please tell the phone number of the contact you would like to update: ")
-        if validate_phone_number(change_contact):
+        if validate_phone_number(change_contact): #Verify the phone number is in the correct format
             break
         else:
             print("Invalid phone number, please use the syntax xxx-xxx-xxxx")
-    if change_contact in contact_dictionary:
+    if change_contact in contact_dictionary: #If the phone number is in the dictionary
         while True:
             print(contact_dictionary[change_contact]["Name"])
             print(contact_dictionary[change_contact]["Phone number"])
@@ -236,21 +236,21 @@ def edit_contact(contact_dictionary):
 """)
             
             if entry_change == "1":
-                old_name = contact_dictionary[change_contact]["Name"]
-                name_change = input("What should we change the name to?: ")
-                contact_dictionary[change_contact]["Name"] = name_change
-                print(f"Your Name has been changed from {old_name} to {name_change}")
+                old_name = contact_dictionary[change_contact]["Name"] #Save the old name to print later
+                name_change = input("What should we change the name to?: ") #Get the new name
+                contact_dictionary[change_contact]["Name"] = name_change #Update the dictionary with the new name
+                print(f"Your Name has been changed from {old_name} to {name_change}") #Print the old and new name
                 
                 
             elif entry_change == "2":
                 while True:
                     num_change = input("What should we change the phone number to?: ")
-                    if validate_phone_number(num_change):
+                    if validate_phone_number(num_change): #Verify the phone number is in the correct format
                         break
                     else:
-                        print("Invalid phone number, please use the syntax xxx-xxx-xxxx")  
+                        print("Invalid phone number, please use the syntax xxx-xxx-xxxx")  #If the phone number is not in the correct format
                 old_number = contact_dictionary[change_contact]["Phone number"]
-                contact_dictionary[change_contact]["Phone number"] = num_change
+                contact_dictionary[change_contact]["Phone number"] = num_change 
                 print(f"Your phone number has been changed from {old_number} to {num_change}")
                 
             elif entry_change == "3":
@@ -262,7 +262,7 @@ def edit_contact(contact_dictionary):
             elif entry_change == "4":
                 if contact_dictionary[change_contact]["Additional information"] == "NONE":
                     print("Looks like you didnt have any Additional information before, you may add it now. ")
-                    contact_dictionary[change_contact]["Additional information"] = {
+                    contact_dictionary[change_contact]["Additional information"] = { # Change additional information so they can manipulate it down below
                                                             "Address": "NONE",
                                                             "Notes": "NONE",
                                                             "Relationship": "NONE"}
@@ -326,24 +326,24 @@ def edit_contact(contact_dictionary):
 
 def delete_contact(contact_dictionary):
     while True:
-        del_choice = input("Please enter the phone number of the contact you would like to delete: ")
-        if validate_phone_number(del_choice):
+        del_choice = input("Please enter the phone number of the contact you would like to delete: ") 
+        if validate_phone_number(del_choice): #Verify the phone number is in the correct format
             break
         else:
-            print("Invalid phone number, please use the syntax xxx-xxx-xxxx")
-    if del_choice in contact_dictionary:
-            del_contact = contact_dictionary[del_choice]
+            print("Invalid phone number, please use the syntax xxx-xxx-xxxx") #If the phone number is not in the correct format
+    if del_choice in contact_dictionary: #If the phone number is in the dictionary
+            del_contact = contact_dictionary[del_choice] 
             print(f"Name: {del_contact["Name"]}")
             print(f"Phone Number: {del_contact["Phone number"]}")
             print(f"Email Address: {del_contact["Email address"]}")
-            confirm_delete = input("Are you sure you would like to delete this contact? ")
-            if confirm_delete == "yes" or confirm_delete == "1":
-                del contact_dictionary[del_choice]
-                print("Contact has been deleted")
-            else:
-                print("Contact has not been deleted")
+            confirm_delete = input("Are you sure you would like to delete this contact? ") #Confirm the deletion
+            if confirm_delete == "yes" or confirm_delete == "1": #If the user confirms the deletion
+                del contact_dictionary[del_choice] #Delete the contact
+                print("Contact has been deleted") #Print that the contact has been deleted
+            else: #If the user does not confirm the deletion
+                print("Contact has not been deleted") #Print that the contact has not been deleted
     else:
-        print("Looks like that not in the contact list. Verify you used proper syntax of xxx-xxx-xxxx")      
+        print("Looks like that not in the contact list. Verify you used proper syntax of xxx-xxx-xxxx")  #If the phone number is not in the dictionary    
     pass
 
 
@@ -364,32 +364,32 @@ def search_contact(contact_dictionary):
                     break
                 else:
                     print("Invalid phone number, please use the syntax xxx-xxx-xxxx")
-            if contact_search in contact_dictionary:
-                    searched_contact = contact_dictionary[contact_search]
+            if contact_search in contact_dictionary: #If the phone number is in the dictionary
+                    searched_contact = contact_dictionary[contact_search] #Save the contact to print later
                     print(f"Name: {searched_contact["Name"]}")
                     print(f"Phone Number: {searched_contact["Phone number"]}")
                     print(f"Email Address: {searched_contact["Email address"]}")
-                    if searched_contact["Additional information"] == "NONE":
-                        print("No Additional Information")
-                    else:
-                        print(f"Address: {searched_contact["Additional information"]["Address"]}")
+                    if searched_contact["Additional information"] == "NONE": #If there is no additional information
+                        print("No Additional Information")#Print that there is no additional information
+                    else: 
+                        print(f"Address: {searched_contact["Additional information"]["Address"]}") 
                         print(f"Notes: {searched_contact["Additional information"]["Notes"]}")
                         print(f"Relationship: {searched_contact["Additional information"]["Relationship"]}")
             else:
                 print("Doesnt look like that contact is in you contact list. ")
-        elif menu_select == "2":
+        elif menu_select == "2": #If the user wants to go back to the main menu
             break
     
 
 #             Displaying a list of all contacts with their unique identifiers.
 
 def display_contact(contact_dictionary):
-    for key, value in contact_dictionary.items():
-        print(f"Name: {value["Name"]}")
+    for key, value in contact_dictionary.items(): #Print the key and value of the dictionary
+        print(f"Name: {value["Name"]}") #
         print(f"Phone Number: {value["Phone number"]}")
         print(f"Email Address: {value["Email address"]}")
-        if value["Additional information"] == "NONE":
-            print("No Additional Information")
+        if value["Additional information"] == "NONE": #If there is no additional information
+            print("No Additional Information") #Print that there is no additional information
         else:
             print(f"Address: {value["Additional information"]["Address"]}")
             print(f"Notes: {value["Additional information"]["Notes"]}")
@@ -399,10 +399,10 @@ def display_contact(contact_dictionary):
     
 
 #             Exporting contacts to a text file in a structured format.
-def export_contact(contact_dictionary):
+def export_contact(contact_dictionary): #Thanks sydney for the help on this one
     file = open("export_contact_list.txt", "w+")  # Opens an entire new file to write in
     with open("export_contact_list.txt", "w") as file:  
-        for contact_number, new_contact in contact_dictionary.items(): # K:V are identified then written into the .txt file
+        for contact_number, new_contact in contact_dictionary.items(): #For the key and value in the dictionary
             file.write(f"{contact_number}: {new_contact}\n")
     print("Contacts have been exported, please look for the export_contact_list file in your directory! ")
     pass
@@ -412,25 +412,24 @@ def export_contact(contact_dictionary):
 
 def import_contact(contact_dictionary):
     try:    
-        with open ("import_contact.txt", "r") as file:
-            for line in file:
-                info = line.strip().split()
-                print(info)
-                phone = info[0]
+        with open ("import_contact.txt", "r") as file: #Open the file to read
+            for line in file: #For each line in the file
+                info = line.strip().split() #Strip the line and split it
+                phone = info[0] 
                 name = info[1] 
                 email = info[2]
                 address = info[3]
                 notes = info[4]
                 relationship = info[5]
                 
-                if phone in contact_dictionary:
-                    print("That contact already in your dictionary")
+                if phone in contact_dictionary: #If the phone number is in the dictionary
+                    print("That contact already in your dictionary") #Print that the contact is already in the dictionary
                 else:
                     contact_dictionary.update({phone: {"Name": name, "Phone number": phone, "Email address": email, "Additional information": {"Address": address, "Notes": notes, "Relationship": relationship}}})
-                    print("Contact has been added to your dictionary")
+                    print("Contact has been added to your dictionary") #Print that the contact has been added to the dictionary
                     print(contact_dictionary)
-    except IndexError:
-        print("You have recieved and IndexError try verifying there are no hidden lines in the import file.")
+    except IndexError: #If there is an IndexError - This is to verify there are no hidden lines in the import file
+        print("You have recieved and IndexError try verifying there are no hidden lines in the import file.") #Print that there is an IndexError
                     
 
 def main(contact_dictionary):
@@ -452,32 +451,25 @@ Menu:
         try:
                 # Input for the while loop. 
                 menu_item = int(input("What would you like to do? Please input a number 1-8: " ))
-                #First menu item takes you to the add_todo function
-                if menu_item == 1: 
+                if menu_item == 1: # If the user inputs 1 it will add a contact
                     add_contact(contact_dictionary)
-               #Second menu item prints the list in s better format
-                elif menu_item == 2:
+                elif menu_item == 2: # If the user inputs 2 it will edit a contact
                     edit_contact(contact_dictionary)
-                #Third takes you to the function to mark an item complete.
-                elif menu_item == 3:
+                elif menu_item == 3: # If the user inputs 3 it will delete a contact
                     delete_contact(contact_dictionary)
-                #Fourth menu item take you to remove an item. 
-                elif menu_item == 4:
+                elif menu_item == 4: # If the user inputs 4 it will search for a contact
                     search_contact(contact_dictionary)
-                #Last menu item prints the final list and breaks the loop.
-                elif menu_item == 5:
+                elif menu_item == 5: # If the user inputs 5 it will display all contacts
                     display_contact(contact_dictionary)
-                elif menu_item == 6:
+                elif menu_item == 6: # If the user inputs 6 it will export the contacts
                     export_contact(contact_dictionary)
-                elif menu_item == 7:
+                elif menu_item == 7: # If the user inputs 7 it will import the contacts
                     import_contact(contact_dictionary)
-                elif menu_item == 8:
+                elif menu_item == 8: # If the user inputs 8 it will quit the program
                     break
-                # If a number outside of 1-5 is chosen it prompts to choose again.
-                else:
+                else: # If a number outside of 1-8 is chosen it prompts to choose again.
                         print("That's not between 1-8! Try again.")
-            # If you print something that cannot become an integer it gives a ValueError which prompts them that its not a number.        
-        except ValueError:
+        except ValueError: # If you print something that cannot become an integer it gives a ValueError which prompts them that its not a number.
                 print("That is not a number! ")
 
 main( contact_dictionary)
