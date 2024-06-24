@@ -136,6 +136,8 @@
 
 #             Additional information (e.g., address, notes).
 
+import re
+
 contact_dictionary = {
     "123-456-7890": {
         "Name": "Buzz Lightyear",
@@ -164,53 +166,67 @@ contact_dictionary = {
         "Additional information": "NONE"
 
     }}
-#     Menu Actions:
 
-#         Implement the following actions in response to menu selections:
+def validate_phone_number(phone_number):
+    # Define the regex pattern for 3digits-3digits-4digits
+    pattern = re.compile(r'^\d{3}-\d{3}-\d{4}$')
+    # Check if the input matches the pattern
+    if re.match(pattern, phone_number):
+        return True
+    else:
+        return False
+
 
 #             Adding a new contact with all relevant details.
 
 def add_contact(contact_dictionary):
     print("Welcome to the add contact page")
     contact_name = input("Lets start with your new contacts phone name: ").capitalize()
-    contact_number = input("Lets start with your new contacts phone number: ")
+    while True:
+        contact_number = input("Lets start with your new contacts phone number: ")
+        if validate_phone_number(contact_number):
+            break
+        else:
+            print("Invalid phone number, please use the syntax xxx-xxx-xxxx")
     contact_email = input("Lets start with your new contacts phone email: ").capitalize()
     additional_info = input("Would you like to add any additional information to this contact?: ")
     if additional_info == "1" or additional_info == 'yes':
-        # add_info = input("What aditional info would you like to add?: ") Potentially add different options
         info_address = input("What is the contacts Address?: ").capitalize()
         info_notes = input("Where did you meet this contact or any other notes?: ").capitalize()
         info_relationship = input("Be them Friend? or Foe!?: ").capitalize()
         
         contact_dictionary.update({contact_number: 
-                                   {"Name": contact_name, 
+                                {"Name": contact_name, 
                                     "Phone number": contact_number, 
                                     "Email address": contact_email, 
                                     "Additional information": 
                                     {"Address": info_address, 
-                                     "Notes": info_notes, 
-                                     "Relationship": info_relationship }}})   
+                                    "Notes": info_notes, 
+                                    "Relationship": info_relationship }}})   
     else:
         contact_dictionary.update({contact_number: 
-                                   {"Name": contact_name, 
+                                {"Name": contact_name, 
                                     "Phone number": contact_number, 
                                     "Email address": contact_email, 
                                     "Additional information": "NONE" 
-                                     }})  
-    print(contact_dictionary["719-200-7838"])
-
-
-
-
+                                    }})  
+    
 
 #             Editing an existing contact's information (name, phone number, email, etc.).
 
 
 def edit_contact(contact_dictionary):
-    change_contact = input("Please tell the phone number of the contact you would like to update: ")
+    while True:
+        change_contact = input("Please tell the phone number of the contact you would like to update: ")
+        if validate_phone_number(change_contact):
+            break
+        else:
+            print("Invalid phone number, please use the syntax xxx-xxx-xxxx")
     if change_contact in contact_dictionary:
         while True:
-            print(contact_dictionary[change_contact])
+            print(contact_dictionary[change_contact]["Name"])
+            print(contact_dictionary[change_contact]["Phone number"])
+            print(contact_dictionary[change_contact]["Email address"])
             entry_change = input(""" Which field are you looking to change?
 1. Name 
 2. Phone Number
@@ -227,7 +243,12 @@ def edit_contact(contact_dictionary):
                 
                 
             elif entry_change == "2":
-                num_change = input("What should we change the phone number to?: ")
+                while True:
+                    num_change = input("What should we change the phone number to?: ")
+                    if validate_phone_number(num_change):
+                        break
+                    else:
+                        print("Invalid phone number, please use the syntax xxx-xxx-xxxx")  
                 old_number = contact_dictionary[change_contact]["Phone number"]
                 contact_dictionary[change_contact]["Phone number"] = num_change
                 print(f"Your phone number has been changed from {old_number} to {num_change}")
@@ -240,7 +261,7 @@ def edit_contact(contact_dictionary):
                 
             elif entry_change == "4":
                 if contact_dictionary[change_contact]["Additional information"] == "NONE":
-                    print("Looks like you didnt have any Additional information before you may add that information now. ")
+                    print("Looks like you didnt have any Additional information before, you may add it now. ")
                     contact_dictionary[change_contact]["Additional information"] = {
                                                             "Address": "NONE",
                                                             "Notes": "NONE",
@@ -301,10 +322,15 @@ def edit_contact(contact_dictionary):
         print("Looks like that not in the contact list. Verify you used proper syntax of xxx-xxx-xxxx")
           
 
-
 #             Deleting a contact by searching for their unique identifier.
+
 def delete_contact(contact_dictionary):
-    del_choice = input("Please enter the phone number of the contact you would like to delete: ")
+    while True:
+        del_choice = input("Please enter the phone number of the contact you would like to delete: ")
+        if validate_phone_number(del_choice):
+            break
+        else:
+            print("Invalid phone number, please use the syntax xxx-xxx-xxxx")
     if del_choice in contact_dictionary:
             del_contact = contact_dictionary[del_choice]
             print(f"Name: {del_contact["Name"]}")
@@ -320,9 +346,10 @@ def delete_contact(contact_dictionary):
         print("Looks like that not in the contact list. Verify you used proper syntax of xxx-xxx-xxxx")      
     pass
 
-#delete_contact(contact_dictionary)
+
 
 #             Searching for a contact by their unique identifier and displaying their details.
+
 def search_contact(contact_dictionary):
     print("Welcome to the search tab")
     while True:
@@ -331,7 +358,12 @@ def search_contact(contact_dictionary):
 2. Go back to the main menu?: 
 """)
         if menu_select == "1":
-            contact_search = input("PLease input the phone number of the contact you would like to view.  ")
+            while True:
+                contact_search = input("PLease input the phone number of the contact you would like to view.  ")
+                if validate_phone_number(contact_search):
+                    break
+                else:
+                    print("Invalid phone number, please use the syntax xxx-xxx-xxxx")
             if contact_search in contact_dictionary:
                     searched_contact = contact_dictionary[contact_search]
                     print(f"Name: {searched_contact["Name"]}")
@@ -348,7 +380,6 @@ def search_contact(contact_dictionary):
         elif menu_select == "2":
             break
     
-
 
 #             Displaying a list of all contacts with their unique identifiers.
 
@@ -368,15 +399,39 @@ def display_contact(contact_dictionary):
     
 
 #             Exporting contacts to a text file in a structured format.
-def export_contact():
+def export_contact(contact_dictionary):
+    file = open("export_contact_list.txt", "w+")  # Opens an entire new file to write in
+    with open("export_contact_list.txt", "w") as file:  
+        for contact_number, new_contact in contact_dictionary.items(): # K:V are identified then written into the .txt file
+            file.write(f"{contact_number}: {new_contact}\n")
+    print("Contacts have been exported, please look for the export_contact_list file in your directory! ")
     pass
+
 
 #             Importing contacts from a text file and adding them to the system.
 
-def import_contact():
-    pass
-
-
+def import_contact(contact_dictionary):
+    try:    
+        with open ("import_contact.txt", "r") as file:
+            for line in file:
+                info = line.strip().split()
+                print(info)
+                phone = info[0]
+                name = info[1] 
+                email = info[2]
+                address = info[3]
+                notes = info[4]
+                relationship = info[5]
+                
+                if phone in contact_dictionary:
+                    print("That contact already in your dictionary")
+                else:
+                    contact_dictionary.update({phone: {"Name": name, "Phone number": phone, "Email address": email, "Additional information": {"Address": address, "Notes": notes, "Relationship": relationship}}})
+                    print("Contact has been added to your dictionary")
+                    print(contact_dictionary)
+    except IndexError:
+        print("You have recieved and IndexError try verifying there are no hidden lines in the import file.")
+                    
 
 def main(contact_dictionary):
     while True:
@@ -396,7 +451,7 @@ Menu:
               """)
         try:
                 # Input for the while loop. 
-                menu_item = int(input("What would you like to do? Please input a number 1-8:  " ))
+                menu_item = int(input("What would you like to do? Please input a number 1-8: " ))
                 #First menu item takes you to the add_todo function
                 if menu_item == 1: 
                     add_contact(contact_dictionary)

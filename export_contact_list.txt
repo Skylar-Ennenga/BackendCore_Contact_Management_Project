@@ -1,0 +1,3 @@
+123-456-7890: {'Name': 'Buzz Lightyear', 'Phone number': '123-456-7890', 'Email address': 'Buzz@example.com', 'Additional information': {'Address': '123 Elm Street, Springfield', 'Notes': 'Works at Company X', 'Relationship': 'Friend'}}
+987-654-3210: {'Name': 'Zerg Lightyear', 'Phone number': '987-654-3210', 'Email address': 'zerg@example.com', 'Additional information': {'Address': '456 Oak Street, Springfield', 'Notes': 'Met at conference Y', 'Relationship': 'Foe'}}
+719-200-7838: {'Name': 'Skylar Ennenga', 'Phone number': '719-200-7838', 'Email address': 's@example.com', 'Additional information': 'NONE'}
